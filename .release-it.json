@@ -1,0 +1,8 @@
+{
+    "hooks": {
+        "after:release": [
+            "pnpm run change-log:init",
+            "echo Successfully released ${name} v${version} to ${repo.repository}."
+        ]
+    }
+}
