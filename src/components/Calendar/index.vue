@@ -1,25 +1,20 @@
 <script lang="ts" setup>
+import { useAppStore, useCalendarStore } from '@/store';
 import dayjs from 'dayjs';
 import { storeToRefs } from 'pinia';
-import { useCalendarStore } from './store';
 
-const calendarStore = useCalendarStore();
-const { curCalValue, loading } = storeToRefs(calendarStore);
-
-// // watch(curCalValue, (value, prevValue) => {
-// //     useCalendarStore().setMonthEventData();
-// // });
+const appStore = useAppStore();
+const { curCalValue } = storeToRefs(appStore);
+const { loading } = storeToRefs(useCalendarStore());
 
 const calendarRef = ref();
-
-await calendarStore.initStore();
 
 const selectDate = async (val: string) => {
     loading.value = true;
     calendarRef.value.selectDate(val);
     console.log('selectDate::', val);
     console.log('selectDate::', calendarRef);
-    await useCalendarStore().setMonthData();
+    await useAppStore().setMonthData();
     loading.value = false;
 };
 </script>

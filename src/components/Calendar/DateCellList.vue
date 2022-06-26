@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { IQueryRes } from '@/apis';
+import { useSettingStore } from '@/store';
 import { storeToRefs } from 'pinia';
-import { useCalendarStore } from './store';
 const props = defineProps<{
     dayData: IQueryRes[] | [];
 }>();
-const calendarStore = useCalendarStore();
-let { model } = storeToRefs(calendarStore);
+
+let { model } = storeToRefs(useSettingStore());
 const itemCount = computed(() => props.dayData.length);
 
 function onClickEventItem(e: Event, item: IQueryRes) {
@@ -63,9 +63,11 @@ function retItemBgColor(item: IQueryRes) {
     font-size: 12px;
     height: auto;
 }
+
 .date-cell-list {
     padding: 0;
 }
+
 .date-cell-list-item,
 .date-cell-list-title {
     overflow-x: hidden;

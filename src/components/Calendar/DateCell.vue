@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import { useDrawerStore } from '@/components/Drawer/store';
+import { useAppStore } from '@/store';
 import dayjs from 'dayjs';
 import { storeToRefs } from 'pinia';
-import { useCalendarStore } from './store';
 
 const props = defineProps<{
     date: Date;
     isSelected: boolean;
 }>();
 
-const calendarStore = useCalendarStore();
-const { curMonthData } = storeToRefs(calendarStore);
+const { curMonthData } = storeToRefs(useAppStore());
 
 const dayData = computed(() =>
     curMonthData.value.filter(

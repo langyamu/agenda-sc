@@ -1,7 +1,7 @@
 import { getNotebookConfList, IGetNotebookConfRes, lsNotebooks } from '@/apis';
+import { useAppStore } from '@/store';
 import { toReject, toResolve } from '@/utils';
 import { defineStore } from 'pinia';
-import { useCalendarStore } from '../Calendar/store';
 
 export { useSettingStore };
 
@@ -34,6 +34,7 @@ const useSettingStore = defineStore('setting', {
     },
     actions: {
         async initStore() {
+            this.loading = true;
             const [error, res] = await lsNotebooks();
 
             if (error) return toReject(error);
@@ -66,11 +67,11 @@ const useSettingStore = defineStore('setting', {
         },
         async switchNotebook(notebookIdList: string[]) {
             this.curNotebookIdList = notebookIdList;
-            return await useCalendarStore().initStore();
+            return await useAppStore().initStore();
         },
         async changeMode(model: 'Todo' | 'Journal' | 'Doc') {
             this.model = model;
-            return await useCalendarStore().initStore();
+            return await useAppStore().initStore();
         },
     },
 });

@@ -1,8 +1,10 @@
+import { useCalendarStore } from '@/components/Calendar/store';
 import { useSettingStore } from '@/components/Setting/store';
-import { toReject, toResolve } from '@/utils';
+import { toReject } from '@/utils';
 import { createPinia } from 'pinia';
 import piniaPersist from 'pinia-plugin-persist';
-export { initStore };
+import { useAppStore } from './modules/app';
+export { initStore, useAppStore, useCalendarStore, useSettingStore };
 
 const store = createPinia();
 
@@ -14,6 +16,6 @@ async function initStore(app: any) {
     const [error] = await useSettingStore().initStore();
     if (error) return toReject(error);
 
-    return toResolve(true);
+    return await useAppStore().initStore();
 }
 export default store;
