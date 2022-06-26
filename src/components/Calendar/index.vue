@@ -50,10 +50,9 @@ const selectDate = async (val: string) => {
 .el-calendar-table .el-calendar-day {
     overflow-y: auto;
 }
+
 .event-info {
     padding: 5px 0px;
     font-size: 14px;
-}
-.event-info .event-info-label {
 }
 </style>

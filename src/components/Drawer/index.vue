@@ -11,6 +11,14 @@ const activeNames = computed(() =>
     curData.value.length > 1 ? [] : [curData.value[0].id],
 );
 
+const drawerSize = computed(() =>
+    window.innerWidth < 1024 ? '100vw' : '50vw',
+);
+
+const titleTooltipPlacement = computed(() =>
+    window.innerWidth < 1024 ? 'top' : 'left',
+);
+
 function retItemColor(block: IQueryRes) {
     if (model.value === 'Todo') {
         return block.markdown.startsWith('* [X]') ? '#67C23A' : '#F56C6C';
@@ -44,7 +52,7 @@ function onClickJumpToNotes(block: IQueryRes) {
     <el-drawer
         v-model="isShow"
         direction="rtl"
-        size="50%"
+        :size="drawerSize"
         :before-close="
             () => {
                 isShow = false;
@@ -71,39 +79,42 @@ function onClickJumpToNotes(block: IQueryRes) {
                                     'border-left': `5px solid ${retItemColor(
                                         block,
                                     )}`,
+                                    'padding-left': '10px',
                                 }"
                             >
-                                <el-scrollbar
-                                    wrap-class="info-list-item-title-scrollbar"
-                                    :wrap-style="{
-                                        'font-weight': 'bold',
-                                        'border-radius': '5px 0 0 5px',
-                                        padding: '0 10px',
-                                    }"
+                                <el-tooltip
+                                    :content="block.fcontent"
+                                    effect="dark"
+                                    :placement="titleTooltipPlacement"
                                 >
-                                    <el-tooltip
-                                        :content="block.fcontent"
-                                        effect="dark"
-                                        placement="left"
+                                    <el-scrollbar
+                                        :view-style="{
+                                            display: 'flex',
+                                        }"
                                     >
-                                        <span>{{ block.fcontent }}</span>
-                                    </el-tooltip>
-                                </el-scrollbar>
-
-                                <div style="display: flex; align-items: center">
-                                    <el-tooltip
-                                        :content="`跳转到“${block.hpath}”`"
-                                        effect="dark"
-                                        placement="left"
-                                    >
-                                        <el-button
-                                            link
-                                            type="primary"
-                                            @click="onClickJumpToNotes(block)"
-                                            ><el-icon> <i-ep-link /></el-icon
-                                        ></el-button>
-                                    </el-tooltip>
-                                </div>
+                                        <div
+                                            style="
+                                                flex-shrink: 0;
+                                                font-weight: bold;
+                                            "
+                                        >
+                                            {{ block.fcontent }}
+                                        </div>
+                                    </el-scrollbar>
+                                </el-tooltip>
+                                <el-tooltip
+                                    :content="`跳转到“${block.hpath}”`"
+                                    effect="dark"
+                                    placement="left"
+                                >
+                                    <el-button
+                                        link
+                                        type="primary"
+                                        style="padding: 0 10px"
+                                        @click="onClickJumpToNotes(block)"
+                                        ><el-icon> <i-ep-link /></el-icon
+                                    ></el-button>
+                                </el-tooltip>
                             </div>
                         </template>
 
@@ -149,6 +160,7 @@ function onClickJumpToNotes(block: IQueryRes) {
 .info-list-container {
     height: auto;
 }
+
 .info-list-item {
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -161,20 +173,15 @@ function onClickJumpToNotes(block: IQueryRes) {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-radius: 3px 0 0 3px;
-}
-
-.info-list-item-title-scrollbar {
-    max-width: 100%;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .info-list-item-desc {
     margin-top: 20px;
     margin-left: 5px;
 }
+
 .info-list-item-desc-item-label {
     display: inline-flex;
     align-items: center;
