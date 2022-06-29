@@ -34,7 +34,7 @@ service.interceptors.response.use(
         const url = response.config.url;
         const code = res.code || (url === '/api/file/getFile' && !res ? -1 : 0);
 
-        console.log('response::', response);
+        // console.log('response::', response);
 
         if (code !== 0) {
             ElMessage.error(res.msg);
