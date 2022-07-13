@@ -1,7 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import IEpCalendar from '~icons/ep/calendar';
 import IEpSetting from '~icons/ep/setting';
-import IEpTickets from '~icons/ep/tickets';
 
 const baseRoutes: RouteRecordRaw[] = [
     {
@@ -17,15 +16,15 @@ const baseRoutes: RouteRecordRaw[] = [
             icon: IEpCalendar,
         },
     },
-    {
-        path: '/timeline',
-        name: 'Timeline',
-        component: () => import('@/views/Timeline/index.vue'),
-        meta: {
-            title: '时间线',
-            icon: IEpTickets,
-        },
-    },
+    // {
+    //     path: '/timeline',
+    //     name: 'Timeline',
+    //     component: () => import('@/views/Timeline/index.vue'),
+    //     meta: {
+    //         title: '时间线',
+    //         icon: IEpTickets,
+    //     },
+    // },
     {
         path: '/setting',
         name: 'Setting',
