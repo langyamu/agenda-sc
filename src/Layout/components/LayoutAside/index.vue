@@ -7,14 +7,11 @@ const route = useRoute(); // 当前 路由
 const routes = router.getRoutes().filter((route) => route.meta?.title);
 console.log('routes::', routes);
 console.log('route::', route);
-const { isShow, isCollapse } = storeToRefs(useLayoutAsideStore());
+const { isShow } = storeToRefs(useLayoutAsideStore());
 </script>
 <template>
     <el-aside v-show="isShow" width="auto">
-        <div style="text-align: center">
-            <el-switch v-model="isCollapse" />
-        </div>
-        <el-menu :default-active="route.path" router :collapse="!isCollapse">
+        <el-menu :default-active="route.path" router>
             <el-menu-item
                 v-for="route in routes"
                 :key="route.name"
