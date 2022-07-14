@@ -3,7 +3,16 @@ import to from 'await-to-js';
 import { AxiosRequestConfig } from 'axios';
 import service from './axios';
 export * from './axios';
-export { isDev, request, toLine, toReject, toResolve, getRuntimeEnv, chunkArr };
+export {
+    isDev,
+    request,
+    toLine,
+    toReject,
+    toResolve,
+    getRuntimeEnv,
+    chunkArr,
+    once,
+};
 export type { IResponseType };
 
 interface IResponseType<P = object | Array<object> | null> {
@@ -53,4 +62,14 @@ function chunkArr(arr: any[], size: number) {
         result.push(arr.slice(start, end));
     }
     return result;
+}
+
+function once(func: () => void) {
+    let flag = true;
+    return function () {
+        func();
+        flag = false;
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        func = () => {};
+    };
 }

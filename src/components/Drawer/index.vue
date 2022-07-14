@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { IQueryRes } from '@/apis';
+import { useAppSize } from '@/hooks/windowSize';
 import dayjs from 'dayjs';
 import { storeToRefs } from 'pinia';
 import { useDrawerStore } from './store';
 
 const drawerStore = useDrawerStore();
+const { width, height } = useAppSize();
 const { isShow, curData, title, model } = storeToRefs(drawerStore);
 
 const activeNames = computed(() =>
     curData.value.length > 1 ? [] : [curData.value[0].id],
 );
 
-const drawerSize = computed(() =>
-    window.innerWidth < 1024 ? '100vw' : '50vw',
-);
+const drawerSize = computed(() => (width.value < 1024 ? '100vw' : '50vw'));
 
 const titleTooltipPlacement = computed(() =>
-    window.innerWidth < 1024 ? 'top' : 'left',
+    width.value < 1024 ? 'top' : 'left',
 );
 
 function retItemColor(block: IQueryRes) {
@@ -87,20 +87,16 @@ function onClickJumpToNotes(block: IQueryRes) {
                                     effect="dark"
                                     :placement="titleTooltipPlacement"
                                 >
-                                    <el-scrollbar
-                                        :view-style="{
-                                            display: 'flex',
+                                    <div
+                                        :style="{
+                                            display: 'inline-flex',
+                                            overflow: 'hidden',
+                                            'white-space': 'nowrap',
+                                            width: 'calc(100% -36px -15px)',
                                         }"
                                     >
-                                        <div
-                                            style="
-                                                flex-shrink: 0;
-                                                font-weight: bold;
-                                            "
-                                        >
-                                            {{ block.fcontent }}
-                                        </div>
-                                    </el-scrollbar>
+                                        {{ block.fcontent }}
+                                    </div>
                                 </el-tooltip>
                                 <el-tooltip
                                     :content="`跳转到“${block.hpath}”`"
